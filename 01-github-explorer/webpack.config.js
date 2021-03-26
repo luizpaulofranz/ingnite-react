@@ -13,6 +13,7 @@ de arquivos que existem no projeto, como JSX, SASS, CSS etc.
 // os import do JS sao do ES6 e nem todos os browsers dao suporte, babel passa tratando isso pra nos
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
 // controle de ambiente de prod/dev
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -40,7 +41,15 @@ module.exports = {
             {
                 test: /\.jsx$/,
                 exclude: /node_modules/,
-                use: 'babel-loader' // integracao entre o babel e o webpack
+                use: {
+                    loader: 'babel-loader', // integracao entre o babel e o webpack
+                    options: {
+                        plugins: [
+                            isDevelopment && require.resolve('react-refresh/babel')
+                        ].filter(Boolean)
+                    }
+                }
+                
             },
             {   // organiza os imports do CSS/SASS
                 test: /\.scss$/,
@@ -53,11 +62,14 @@ module.exports = {
         // essa config injeta automaticamente o arquivo bundle.js no index.html, e joga n apasta dist
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'public', 'index.html')
-        })
-    ],
+        }),
+        // esses && funcionam como um ternario sem o else, porem se for false isso retorna um false, por isso o filter abaixo
+        isDevelopment && new ReactRefreshWebpackPlugin() // plugin pra manter o estado do app entre os hot-reloads (por isso apenas em dev)
+    ].filter(Boolean),
     // esse cara controla 2 coisas, um é o efeito watch, para recriar o bundle.js ao alterar algum arquivo, e outro fornece um servidor na porta 8080.
     // eh o pacote web-pack-dev-server: só precisamos rodar yarn webpack serve
     devServer: {
+        hot: true,
         contentBase: path.resolve(__dirname, 'public'),
     }
 }
