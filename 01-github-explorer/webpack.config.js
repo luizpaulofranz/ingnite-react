@@ -24,7 +24,7 @@ module.exports = {
     devtool: isDevelopment ? 'eval-source-map' : 'source-map',
     // path controla os caminhos nos diferentes SOs
     // indica o ponto de entrada
-    entry: path.resolve(__dirname, 'src', 'index.jsx'),
+    entry: path.resolve(__dirname, 'src', 'index.tsx'),
     // indica onde isso vai ficar
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -32,14 +32,14 @@ module.exports = {
     },
     // extensoes que o webpack vai considerar e assim não precisamos colocar as extencoes nos imports do codigo react
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx', 'ts', 'tsx']
     },
     module: {
         // configura as regras de como os arquivos serao importados no bundle final
         rules: [
             // aqui configuramos os arquivos .jsx, devem ser processados pelo babel-loader
             {
-                test: /\.jsx$/,
+                test: /\.(j|t)sx$/, // tanto para arquivos Jsx ou Tsx, typescript ou JS
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader', // integracao entre o babel e o webpack

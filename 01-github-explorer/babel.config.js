@@ -6,6 +6,7 @@ module.exports = {
     // preset-react serve para o babel considerar o JSX do react
     presets: [
         '@babel/preset-env',
+        '@babel/preset-typescript', // para usar o typescript, tivemos de adicionar como dep de desenvolvimento.
         ['@babel/preset-react', {
             runtime: 'automatic' // essa config adiciona o import do React automaticamente nos arquivos jsx
         }]
