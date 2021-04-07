@@ -5,10 +5,17 @@ import '../styles/repositories.scss';
 
 export function RepositoryList() {
 
+    // tipagem do typescript, declaramos apenas os elementos que vamos usar no componente
+    interface Repository {
+        name: string;
+        description: string;
+        html_url: string;
+    }
+
     // hook useState, retorna dois parametros, um eh a variavel em questão o outro eh o callBack q devemos executar para alterar essa vairavel
     // recebe como parametro o valor inicial da variavel que criamos repositories
     // funciona como o setState do react antigo, reexecuta essa function
-    const [repositories, setRepositories] = useState([]);
+    const [repositories, setRepositories] = useState<Repository[]>([]); // usamos generics dessa forma para setar o tipo do estado
 
     // useEffect substitui os antigos lifeCycle do react, primeiro parametro a function a ser chamada, o segundo a lista de 
     // variaveis que quando alteradas disparam o callBack, se passarmos uma lista vazia funciona como o componentDidMount, executa uma unica vez
