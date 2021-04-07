@@ -32,7 +32,7 @@ module.exports = {
     },
     // extensoes que o webpack vai considerar e assim não precisamos colocar as extencoes nos imports do codigo react
     resolve: {
-        extensions: ['.js', '.jsx', 'ts', 'tsx']
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
     },
     module: {
         // configura as regras de como os arquivos serao importados no bundle final
